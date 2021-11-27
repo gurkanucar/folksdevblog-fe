@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
@@ -47,7 +47,11 @@ function BlogPostCard({ post }) {
         <CardMedia
           className={classes.media}
           component="img"
-          image={post.imageUrl}
+          image={
+            post.imageUrl && post.imageUrl
+              ? post.imageUrl
+              : process.env.PUBLIC_URL + "/assets/folksdevlogo.png"
+          }
           //{process.env.PUBLIC_URL + "/assets/bg2.jpg"}
           alt="green iguana"
         />
@@ -65,7 +69,7 @@ function BlogPostCard({ post }) {
             color="text.secondary"
             className={classes.desc}
           >
-            {post.details}
+            {post.details.replace(/<\/?[^>]+(>|$)/g, "")}
           </Typography>
         </CardContent>
       </Card>

@@ -1,23 +1,50 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
-import { EditorState, convertToRaw } from "draft-js";
+import { EditorState, convertToRaw, ContentState } from "draft-js";
 import draftToHtml from "draftjs-to-html";
+import htmlToDraft from "html-to-draftjs";
 import { Button, Typography } from "@material-ui/core";
 import Box from "@mui/material/Box";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
 import Grid from "@mui/material/Grid";
-import { createPost } from "../api/apiCalls";
+import { deletePostById, getPostById, updatePost } from "../api/apiCalls";
 import { useHistory } from "react-router-dom";
 import Modal from "@mui/material/Modal";
 
-const CreatePage = (props) => {
-  const [editorState, setEditorState] = useState(EditorState.createEmpty());
+const UpdatePage = (props) => {
+  const history = useHistory();
 
+  const paramID = props.match.params.id;
+
+  const [editorState, setEditorState] = useState();
   const [errorMessage, setErrorMessage] = useState();
 
+  //state for modal
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
+  //redirect after update
+  const redirectToHomePage = () => {
+    history.push("/");
+  };
+
+  //redirect 404 not found page
+  const redirectTo404Page = () => {
+    history.push("/404");
+  };
+
+  const [values, setValues] = useState({
+    name: "",
+    imageUrl: "",
+    videoUrl: "",
+    details: "",
+  });
+
+  //modal style
   const style = {
     position: "absolute",
     top: "50%",
@@ -30,28 +57,43 @@ const CreatePage = (props) => {
     p: 4,
   };
 
-  const [values, setValues] = React.useState({
-    name: "",
-    imageUrl: "",
-    videoUrl: "",
-    details: "",
-  });
-
+  //input change func
   const handleChange = (prop) => (event) => {
     setValues({ ...values, [prop]: event.target.value });
   };
 
-  const history = useHistory();
-
-  const redirectToHomePage = () => {
-    history.push("/");
+  const askForDelete = () => {
+    if (window.confirm("Silmek istediginize emin misiniz?")) {
+      deletePost();
+      console.log("silindi");
+    } else {
+      // Do nothing!
+      console.log("iptal edildi");
+    }
   };
 
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  //load posts when opened
+  useEffect(() => {
+    loadPost();
+  }, []);
 
-  const create = async () => {
+  const loadPost = async () => {
+    try {
+      const response = await getPostById(paramID);
+      setValues(response.data);
+      setEditorState(
+        EditorState.createWithContent(
+          ContentState.createFromBlockArray(
+            htmlToDraft(response.data.details).contentBlocks
+          )
+        )
+      );
+    } catch (error) {
+      redirectTo404Page();
+    }
+  };
+
+  const update = async () => {
     try {
       const detailsData = draftToHtml(
         convertToRaw(editorState.getCurrentContent())
@@ -59,7 +101,22 @@ const CreatePage = (props) => {
       let temp = values;
       temp.details = detailsData;
       await setValues(temp);
-      await createPost(values)
+      await updatePost(paramID, values)
+        .then(() => {
+          redirectToHomePage();
+        })
+        .catch((err) => {
+          setErrorMessage(
+            err.message + "\n" + JSON.stringify(err.response.data)
+          );
+          handleOpen();
+        });
+    } catch (err) {}
+  };
+
+  const deletePost = async () => {
+    try {
+      await deletePostById(paramID)
         .then(() => {
           redirectToHomePage();
         })
@@ -107,6 +164,8 @@ const CreatePage = (props) => {
       <div
         style={{
           marginBottom: 20,
+          // display: "flex",
+          // justifyContent: "space-around",
           borderRadius: 25,
           padding: 20,
           background: "#ffffff",
@@ -118,6 +177,7 @@ const CreatePage = (props) => {
               <InputLabel htmlFor="name">Post Ismi</InputLabel>
               <OutlinedInput
                 id="name"
+                defaultValue={values.name}
                 value={values.name}
                 onChange={handleChange("name")}
                 label="Post Ismi"
@@ -129,6 +189,7 @@ const CreatePage = (props) => {
               <InputLabel htmlFor="imageUrl">Resim Url</InputLabel>
               <OutlinedInput
                 id="imageUrl"
+                defaultValue={values.imageUrl}
                 value={values.imageUrl}
                 onChange={handleChange("imageUrl")}
                 label="Resim Url"
@@ -140,6 +201,7 @@ const CreatePage = (props) => {
               <InputLabel htmlFor="videoUrl">Video Url</InputLabel>
               <OutlinedInput
                 id="videoUrl"
+                defaultValue={values.videoUrl}
                 value={values.videoUrl}
                 onChange={handleChange("videoUrl")}
                 label="Video Url"
@@ -160,9 +222,7 @@ const CreatePage = (props) => {
         wrapperClassName="wrapper-class"
         editorClassName="editor-class"
         editorState={editorState}
-        onEditorStateChange={(e) => {
-          setEditorState(e);
-        }}
+        onEditorStateChange={(e) => setEditorState(e)}
       />
       <Button
         variant="contained"
@@ -170,15 +230,23 @@ const CreatePage = (props) => {
         style={{
           marginBottom: 20,
         }}
-        onClick={async () => {
-          await create();
-          console.log(values);
-        }}
+        onClick={() => update()}
       >
-        Yolla
+        Kaydet
+      </Button>
+      <Button
+        variant="contained"
+        color="secondary"
+        style={{
+          marginBottom: 20,
+          marginLeft: 20,
+        }}
+        onClick={() => askForDelete()}
+      >
+        Sil
       </Button>
     </div>
   );
 };
 
-export default CreatePage;
+export default UpdatePage;

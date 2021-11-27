@@ -1,18 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Box from "@material-ui/core/Box";
-import Avatar from "@material-ui/core/Avatar";
+
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
-import Divider from "@material-ui/core/Divider";
-import IconButton from "@material-ui/core/IconButton";
-import Typography from "@material-ui/core/Typography";
+
 import Tooltip from "@material-ui/core/Tooltip";
 import Create from "@material-ui/icons/Create";
-import Settings from "@material-ui/icons/Settings";
-import ListIcon from "@material-ui/icons/List";
+// import Settings from "@material-ui/icons/Settings";
+// import ListIcon from "@material-ui/icons/List";
 
 import { Sling as Hamburger } from "hamburger-react";
+import { Link } from "react-router-dom";
 
 const MenuComponent = () => {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -24,12 +23,6 @@ const MenuComponent = () => {
     setAnchorEl(null);
     setOpen(false);
   };
-
-  // const navigate = useNavigate();
-
-  // const handleOnSubmit = (url) => {
-  //   navigate(`/${url}`, { replace: true });
-  // };
 
   const [isOpen, setOpen] = useState(false);
   return (
@@ -77,13 +70,18 @@ const MenuComponent = () => {
         transformOrigin={{ horizontal: "right", vertical: "top" }}
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
-        <MenuItem onClick={() => console.log("")}>
-          <ListItemIcon>
-            <Create fontSize="small" />
-          </ListItemIcon>
-          Create New
-        </MenuItem>
-        <MenuItem>
+        <Link
+          style={{ color: "inherit", textDecoration: "inherit" }}
+          to={`/create`}
+        >
+          <MenuItem onClick={() => console.log("")}>
+            <ListItemIcon>
+              <Create fontSize="small" />
+            </ListItemIcon>
+            Create New
+          </MenuItem>
+        </Link>
+        {/* <MenuItem>
           <ListItemIcon>
             <ListIcon fontSize="small" />
           </ListItemIcon>
@@ -94,7 +92,7 @@ const MenuComponent = () => {
             <Settings fontSize="small" />
           </ListItemIcon>
           Settings
-        </MenuItem>
+        </MenuItem> */}
       </Menu>
     </React.Fragment>
   );

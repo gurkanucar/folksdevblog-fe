@@ -10,12 +10,14 @@ export const getPostById = (id) => {
   return axios.get("/api/v1/blogPost/post/" + id);
 };
 
-
-
-export const getUsers = (page = 0, size = 5) => {
-  return axios.get(`/api/user?page=${page}&size=${size}`);
+export const createPost = (post) => {
+  return axios.post("/api/v1/blogPost/post", post);
 };
 
-export const getUser = (username) => {
-  return axios.get(`/api/user/${username}`);
+export const updatePost = (id, post) => {
+  return axios.put("/api/v1/blogPost/post/" + id, post);
+};
+
+export const deletePostById = (id) => {
+  return axios.delete("/api/v1/blogPost/post/" + id);
 };

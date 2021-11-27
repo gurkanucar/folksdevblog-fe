@@ -1,17 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import {
-  AppBar,
-  Collapse,
-  CssBaseline,
-  IconButton,
-  Toolbar,
-} from "@material-ui/core";
-import SortIcon from "@material-ui/icons/Sort";
+import { Collapse, IconButton } from "@material-ui/core";
 import DownIcon from "@material-ui/icons/ExpandMore";
 import { Link as Scroll } from "react-scroll";
-import { Sling as Hamburger } from "hamburger-react";
-import MenuComponent from "./MenuComponent";
 
 const useStyles = makeStyles((theme) => ({
   appbar: {
@@ -41,10 +32,6 @@ const useStyles = makeStyles((theme) => ({
     fontFamily: "nunito",
   },
 
-  appbarTitle: {
-    flexGrow: "1",
-    fontFamily: "nunito",
-  },
   container: {
     textAlign: "center",
   },
@@ -58,8 +45,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function CollapseTextComponent() {
   const classes = useStyles();
-
-  const [isOpen, setOpen] = useState(false);
 
   const [checked, setChecked] = useState(false);
 

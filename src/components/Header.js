@@ -1,16 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import {
-  AppBar,
-  Collapse,
-  CssBaseline,
-  IconButton,
-  Toolbar,
-} from "@material-ui/core";
-import SortIcon from "@material-ui/icons/Sort";
-import DownIcon from "@material-ui/icons/ExpandMore";
-import { Link as Scroll } from "react-scroll";
-import { Sling as Hamburger } from "hamburger-react";
+import { AppBar, CardMedia, IconButton, Toolbar } from "@material-ui/core";
 import MenuComponent from "./MenuComponent";
 import { Link } from "react-router-dom";
 
@@ -42,6 +32,13 @@ const useStyles = makeStyles((theme) => ({
   },
   appbarTitle: {
     fontFamily: "nunito",
+    display: "flex",
+    justifyContent: "space-between",
+  },
+  media: {
+    height: "80px",
+    width: "80px",
+    marginTop: "1px",
   },
   container: {
     textAlign: "center",
@@ -60,46 +57,32 @@ const useStyles = makeStyles((theme) => ({
 export default function Header() {
   const classes = useStyles();
 
-  const [isOpen, setOpen] = useState(false);
-
-  const [checked, setChecked] = useState(false);
-
-  useEffect(() => {
-    setChecked(true);
-  }, []);
-
   return (
     <div className={classes.root} id="header">
       <AppBar className={classes.appbar} elevation={0}>
         <Toolbar className={classes.appbarWrapper}>
-          <div className={classes.appbarTitle}>
-            <h1 className={classes.pointer}>
-              <Link
-                style={{ color: 'inherit', textDecoration: 'inherit'}}
-                to={`/`}
-              >
-                FolksDEV
-              </Link>
-            </h1>
-          </div>
+          <Link
+            style={{ color: "inherit", textDecoration: "inherit" }}
+            to={`/`}
+          >
+            <div className={classes.appbarTitle}>
+              <CardMedia
+                className={classes.media}
+                component="img"
+                image={
+                  process.env.PUBLIC_URL + "/assets/folksdev-logo-white.png"
+                }
+                //{process.env.PUBLIC_URL + "/assets/bg2.jpg"}
+                alt=""
+              />
+              <h1 className={classes.pointer}>FolksDEV</h1>
+            </div>
+          </Link>
           <IconButton>
             <MenuComponent />
           </IconButton>
         </Toolbar>
       </AppBar>
-
-      {/* <Collapse in={checked} {...(checked ? { timeout: 1600 } : {})}>
-        <div className={classes.container}>
-          <h1 className={classes.title}>
-            Welcome to <br /> FolksDEV Society
-          </h1>
-          <Scroll to="post-list" smooth={true}>
-            <IconButton>
-              <DownIcon className={classes.expandIcon} />
-            </IconButton>
-          </Scroll>
-        </div>
-      </Collapse> */}
     </div>
   );
 }
