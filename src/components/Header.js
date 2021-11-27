@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { AppBar, CardMedia, IconButton, Toolbar } from "@material-ui/core";
 import MenuComponent from "./MenuComponent";
@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    height: "20vh",
+    height: "12vh",
   },
   appbarWrapper: {
     width: "80%",

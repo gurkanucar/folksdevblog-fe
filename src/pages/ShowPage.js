@@ -108,8 +108,8 @@ const ShowPage = (props) => {
   return (
     <div
       style={{
-        marginLeft: 50,
-        marginRight: 50,
+        marginLeft: 30,
+        marginRight: 30,
       }}
     >
       {post && post ? (

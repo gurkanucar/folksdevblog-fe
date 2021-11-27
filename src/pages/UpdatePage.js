@@ -133,8 +133,8 @@ const UpdatePage = (props) => {
     <div
       className="rounded"
       style={{
-        marginLeft: 50,
-        marginRight: 50,
+        marginLeft: 30,
+        marginRight: 30,
       }}
     >
       <Modal
@@ -213,7 +213,7 @@ const UpdatePage = (props) => {
 
       <Editor
         editorStyle={{
-          height: "20rem",
+          height: "30rem",
           backgroundColor: "white",
           marginBottom: 20,
           padding: "20px",

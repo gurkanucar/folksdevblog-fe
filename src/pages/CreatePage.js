@@ -13,6 +13,8 @@ import { createPost } from "../api/apiCalls";
 import { useHistory } from "react-router-dom";
 import Modal from "@mui/material/Modal";
 
+
+
 const CreatePage = (props) => {
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
 
@@ -76,8 +78,8 @@ const CreatePage = (props) => {
     <div
       className="rounded"
       style={{
-        marginLeft: 50,
-        marginRight: 50,
+        marginLeft: 30,
+        marginRight: 30,
       }}
     >
       <Modal
@@ -151,7 +153,7 @@ const CreatePage = (props) => {
 
       <Editor
         editorStyle={{
-          height: "20rem",
+          height: "30rem",
           backgroundColor: "white",
           marginBottom: 20,
           padding: "20px",
