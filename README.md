@@ -1,70 +1,167 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# FolksDev Blog Challange
 
-## Available Scripts
+A simple blog project for FolksDev society which includes their videos and contents.
 
-In the project directory, you can run:
+## Specifications
 
-### `yarn start`
+- Text editor powered by draft.js
+- Embedded Youtube video url sharing
+- Responsive design
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+  
+## Technologies
 
-### `yarn test`
+**Client:** React, Material UI
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+**Server:** Java Spring Boot 
 
-### `yarn build`
+**Database:** Mysql
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+**Containerization:** Docker
+## Run the project your own computer
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Clone the project
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```bash
+  git clone https://github.com/gurkanucar/folksDevBlog-be.git
+```
 
-### `yarn eject`
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+```bash
+  git clone https://github.com/gurkanucar/folksdevblog-fe.git
+```
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+### For Backend:
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+```bash
+  cd folksDevBlog-be
+```
 
-## Learn More
+```bash
+  docker-compose up --build
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### For Frontend:
 
-### Code Splitting
+```bash
+  cd folksdevblog-fe
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+Install required packages. It may take some time.
 
-### Analyzing the Bundle Size
+```bash
+  npm install
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+Start the application
 
-### Making a Progressive Web App
+```bash
+  npm run start
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+```bash
+  docker-compose up --build
+```
 
-### Advanced Configuration
+:+1: 
+## API Documentation
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+#### You can have a look to [Postman Collection](https://www.postman.com/collections/5f1b9bb8757761a3aeb5)
 
-### Deployment
+#### • Get all posts
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+```http
+  GET /api/v1/blogPost/posts
+```
 
-### `yarn build` fails to minify
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+#### • Get post by id
+
+```http
+  GET /api/v1/blogPost/post/${id}
+```
+
+| Parameter | Type     | Explanation                       |
+| :-------- | :------- | :-------------------------------- |
+| `id`      | `Long` | **Required**. The id of the item to be called |
+
+
+
+#### • Create post
+
+```http
+  POST /api/v1/blogPost/post/${id}
+```
+
+ Only "imageUrl" is not required
+
+```
+{
+    "name": "postname",
+    "imageUrl": "image",
+    "details": "details of post",
+    "videoUrl": "video",
+}
+```
+
+#### • Update post by id
+
+```http
+  PUT /api/v1/blogPost/post/${id}
+```
+
+ "imageUrl" and "deleted" are not required
+
+```
+{
+    "name": "postname",
+    "imageUrl": "image",
+    "details": "details of post",
+    "videoUrl": "video",
+    "deleted": false
+}
+```
+
+| Parameter | Type     | Explanation                       |
+| :-------- | :------- | :-------------------------------- |
+| `id`      | `Long` | **Required**. The id of the item to be updated |
+
+
+
+
+
+#### • Delete post by id
+
+```http
+  DELETE /api/v1/blogPost/post/${id}
+```
+
+| Parameter | Type     | Explanation                       |
+| :-------- | :------- | :-------------------------------- |
+| `id`      | `Long` | **Required**. The id of the item to be deleted |
+
+
+
+
+  
+## Tests
+
+Before the test, you need to create a database called "folksdev_blog_test"
+
+Java:
+```bash
+  mvn clean test
+```
+
+  
+## Demo
+
+#### [• Backend](https://folksdevblog-be.herokuapp.com)
+
+#### [• Frontend](https://folksdevblog-fe-ccd5bd4qv-gurkanucar.vercel.app)
+
+#### [• Api Collection](https://www.postman.com/collections/5f1b9bb8757761a3aeb5)
